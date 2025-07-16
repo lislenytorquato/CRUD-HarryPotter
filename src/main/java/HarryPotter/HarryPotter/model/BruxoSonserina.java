@@ -13,6 +13,10 @@ public class BruxoSonserina extends Bruxo implements Magia{
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
+    public BruxoSonserina() {
+        super();
+    }
+
     public BruxoSonserina(String nome, CasaEnum casa) {
         super(nome, casa);
     }

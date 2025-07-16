@@ -12,6 +12,10 @@ public class BruxoGrifinoria extends Bruxo implements Magia{
     @Id @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
+    public BruxoGrifinoria() {
+        super();
+    }
+
     public BruxoGrifinoria(String nome, CasaEnum casa) {
         super(nome, casa);
     }

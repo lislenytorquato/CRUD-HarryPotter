@@ -2,9 +2,13 @@ package HarryPotter.HarryPotter.model;
 
 import HarryPotter.HarryPotter.enums.CasaEnum;
 
+
 public abstract class Bruxo {
     private String nome;
     private CasaEnum casa;
+
+    public Bruxo() {
+    }
 
     public Bruxo(String nome, CasaEnum casa){
         this.nome = nome;
