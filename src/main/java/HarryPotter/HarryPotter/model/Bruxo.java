@@ -1,10 +1,15 @@
 package HarryPotter.HarryPotter.model;
 
 import HarryPotter.HarryPotter.enums.CasaEnum;
+import jakarta.persistence.Enumerated;
+import jakarta.persistence.MappedSuperclass;
 
-
+@MappedSuperclass
 public abstract class Bruxo {
+
     private String nome;
+
+    @Enumerated
     private CasaEnum casa;
 
     public Bruxo() {

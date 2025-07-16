@@ -1,21 +1,37 @@
 package HarryPotter.HarryPotter.mapper;
 
 import HarryPotter.HarryPotter.dto.BruxoRequestDto;
-import HarryPotter.HarryPotter.enums.CasaEnum;
+import HarryPotter.HarryPotter.dto.BruxoResponseDto;
+import HarryPotter.HarryPotter.model.Bruxo;
 import HarryPotter.HarryPotter.model.BruxoGrifinoria;
 import HarryPotter.HarryPotter.model.BruxoSonserina;
+import org.mapstruct.Mapper;
+import org.mapstruct.factory.Mappers;
 
-public class BruxoMapper {
+@Mapper(componentModel = "spring")
+public interface BruxoMapper {
+    BruxoMapper INSTANCE = Mappers.getMapper(BruxoMapper.class);
 
+    BruxoRequestDto bruxoToRequestDto(Bruxo bruxo);
 
-    public BruxoGrifinoria converterRequestDtoParaBruxoGrifinoria(BruxoRequestDto bruxoRequestDto){
+    BruxoResponseDto bruxoToResponseDto(Bruxo bruxo);
 
-       return new BruxoGrifinoria(bruxoRequestDto.getNome(), bruxoRequestDto.getCasa());
+    BruxoRequestDto bruxoGrifinoriaToRequestDto(BruxoGrifinoria bruxoGrifinoria);
 
-    }
-    public BruxoSonserina converterRequestDtoParaBruxoSonserina(BruxoRequestDto bruxoRequestDto){
+    BruxoResponseDto bruxoGrifinoriaToResponseDto(BruxoGrifinoria bruxoGrifinoria);
 
-        return new BruxoSonserina(bruxoRequestDto.getNome(), bruxoRequestDto.getCasa());
-    }
+    BruxoRequestDto bruxoSonserinaToRequestDto(BruxoSonserina bruxoSonserina);
+
+    BruxoResponseDto bruxoSonserinaToResponseDto(BruxoSonserina bruxoSonserina);
+
+    BruxoGrifinoria bruxoRequestDtoToBruxoGrifinoriaEntity(BruxoRequestDto bruxoRequestDto);
+
+    BruxoSonserina bruxoRequestDtoToBruxoSonserinaEntity(BruxoRequestDto bruxoRequestDto);
+
+    BruxoGrifinoria bruxoResponseDtoToBruxoGrifinoriaEntity(BruxoResponseDto bruxoResponseDto);
+
+    BruxoSonserina bruxoResponseDtoToBruxoSonserinaEntity(BruxoResponseDto bruxoResponseDto);
+
+    BruxoResponseDto toResponseDto(BruxoRequestDto bruxoRequestDto);
     
 }
