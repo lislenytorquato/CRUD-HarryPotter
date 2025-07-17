@@ -8,6 +8,8 @@ import HarryPotter.HarryPotter.model.BruxoSonserina;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
 
+import java.util.List;
+
 @Mapper(componentModel = "spring")
 public interface BruxoMapper {
     BruxoMapper INSTANCE = Mappers.getMapper(BruxoMapper.class);
@@ -33,5 +35,9 @@ public interface BruxoMapper {
     BruxoSonserina bruxoResponseDtoToBruxoSonserinaEntity(BruxoResponseDto bruxoResponseDto);
 
     BruxoResponseDto toResponseDto(BruxoRequestDto bruxoRequestDto);
-    
+
+    List<BruxoResponseDto> listaBruxoGrifinoriaToListaResponseDto(List<BruxoGrifinoria> listaBruxoGrifinoria);
+
+    List<BruxoResponseDto> listaBruxoSonserinaToListaResponseDto(List<BruxoSonserina> listaBruxoSonserina);
 }
+
