@@ -21,6 +21,14 @@ public class BruxoSonserina extends Bruxo implements Magia{
         super(nome, casa);
     }
 
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
     @Override
     public String lancarFeitico(){
         return "Serpensortia! - O bruxo da Sonserina lançou seu feitiço!";
