@@ -67,13 +67,11 @@ public class BruxoService {
         return listaBruxoResponseDto;
     }
 
-    public BruxoResponseDto atualizarBruxo(BruxoRequestDto bruxoRequestDto) throws BruxoException {
-        CasaEnum casa = bruxoRequestDto.getCasa();
-        BruxoGrifinoria bruxoGrifinoria = bruxoMapper.bruxoRequestDtoToBruxoGrifinoriaEntity(bruxoRequestDto);
-        BruxoSonserina bruxoSonserina = bruxoMapper.bruxoRequestDtoToBruxoSonserinaEntity(bruxoRequestDto);
-        return switch (casa){
+    public BruxoResponseDto atualizarBruxo(CasaEnum casaBruxoASerAtualizado,Long idBruxo,BruxoRequestDto bruxoRequestDto) throws BruxoException {
+
+        return switch (casaBruxoASerAtualizado){
             case SONSERINA -> {
-                Optional<BruxoSonserina> bruxoSonserinaEncontrado = bruxoSonserinaRepository.findById(bruxoGrifinoria.getId());
+                Optional<BruxoSonserina> bruxoSonserinaEncontrado = bruxoSonserinaRepository.findById(idBruxo);
                 bruxoSonserinaEncontrado.orElseThrow(()-> new BruxoException("Bruxo nao encontrado"));
                 bruxoSonserinaEncontrado.orElseThrow(()-> new BruxoException("Nome do bruxo nao encontrado")).setNome(bruxoRequestDto.getNome());
                 bruxoSonserinaEncontrado.orElseThrow(()-> new BruxoException("Casa do bruxo nao encontrada")).setCasa(bruxoRequestDto.getCasa());
@@ -83,15 +81,45 @@ public class BruxoService {
 
             }
             case GRIFINORIA -> {
-                Optional<BruxoGrifinoria> bruxoGrifinoriaEncontrado = bruxoGrifinoriaRepository.findById(bruxoGrifinoria.getId());
+                Optional<BruxoGrifinoria> bruxoGrifinoriaEncontrado = bruxoGrifinoriaRepository.findById(idBruxo);
                 bruxoGrifinoriaEncontrado.orElseThrow(()-> new BruxoException("Bruxo nao encontrado"));
                 bruxoGrifinoriaEncontrado.orElseThrow(()-> new BruxoException("Nome do bruxo nao encontrado")).setNome(bruxoRequestDto.getNome());
                 bruxoGrifinoriaEncontrado.orElseThrow(()-> new BruxoException("Casa do bruxo nao encontrada")).setCasa(bruxoRequestDto.getCasa());
-                bruxoGrifinoriaRepository.save(bruxoGrifinoriaEncontrado.get());
+                BruxoGrifinoria bruxoGrifinoria = bruxoGrifinoriaRepository.save(bruxoGrifinoriaEncontrado.get());
                 bruxoGrifinoriaRepository.deleteById(bruxoGrifinoriaEncontrado.get().getId());
                 yield bruxoMapper.bruxoGrifinoriaToResponseDto(bruxoGrifinoria);
 
             }
         };
+    }
+
+    public String mostrarInformacoes(CasaEnum casaBruxo,Long idBruxo) throws BruxoException {
+
+        return switch (casaBruxo){
+                case SONSERINA -> {
+                    Optional<BruxoSonserina> bruxoSonserinaEscolhido = bruxoSonserinaRepository.findById(idBruxo);
+                   yield  bruxoSonserinaEscolhido.orElseThrow(()-> new BruxoException("Bruxo nao encontrado")).mostrarInformacoes();
+                }
+            case GRIFINORIA -> {
+                Optional<BruxoGrifinoria> bruxoGrifinoriaEscolhido = bruxoGrifinoriaRepository.findById(idBruxo);
+                yield bruxoGrifinoriaEscolhido.orElseThrow(()-> new BruxoException("Bruxo nao encontrado")).mostrarInformacoes();
+            }
+
+        };
+    }
+
+    public String lancaFeitico(CasaEnum casaBruxo,Long idBruxo) throws BruxoException {
+
+        return switch (casaBruxo){
+            case SONSERINA -> {
+                Optional<BruxoSonserina> bruxoSonserinaEscolhido = bruxoSonserinaRepository.findById(idBruxo);
+                yield bruxoSonserinaEscolhido.orElseThrow(()->new BruxoException("Bruxo nao encontrado")).lancarFeitico();
+            }
+            case GRIFINORIA -> {
+                Optional<BruxoGrifinoria> bruxoGrifinoriaEscolhido = bruxoGrifinoriaRepository.findById(idBruxo);
+                yield bruxoGrifinoriaEscolhido.orElseThrow(()-> new BruxoException("Bruxo nao encontrado")).lancarFeitico();
+            }
+        };
+
     }
 }
