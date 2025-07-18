@@ -12,6 +12,17 @@ public class BruxoHelper {
 
     public static final  String NOME_SONSERINA = "Lúcio Malfoy";
 
+    public static final Long ID_BRUXO = 1L;
+
+    public static final CasaEnum CASA_BRUXO_GRIFINORIA = CasaEnum.GRIFINORIA;
+    public static final CasaEnum CASA_BRUXO_SONSERINA = CasaEnum.SONSERINA;
+
+    public static final String INFORMACAO_GRIFINORIA = "Nome: Harry Potter; Casa: Grifinoria";
+
+    public static final String FEITICO_GRIFINORIA = "Expelliarmus! - O bruxo da Grifinória lançou seu feitiço!";
+
+    public static final String FEITICO_SONSERINA = "Serpensortia! - O bruxo da Sonserina lançou seu feitiço!";
+
     public static final String MENSAGEM_BRUXO_EXCECAO = "Casa do bruxo nao encontrada";
 
     public static BruxoRequestDto criarBruxoRequestDtoGrifinoria(){

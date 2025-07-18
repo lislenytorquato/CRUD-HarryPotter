@@ -34,11 +34,11 @@ public class BruxoController {
         return new ResponseEntity<>(listaBruxoResponseDto,HttpStatus.OK);
     }
 
-    @PutMapping("/casa/{casaBruxo}/id/{idBruxo}")
-    public ResponseEntity<BruxoResponseDto> atualizarBruxo(@PathVariable CasaEnum casaBruxo, @PathVariable Long idBruxo, @RequestBody BruxoRequestDto bruxoRequestDto) throws BruxoException {
-        BruxoResponseDto bruxoResponseDto = bruxoService.atualizarBruxo(casaBruxo,idBruxo,bruxoRequestDto);
-        return new ResponseEntity<>(bruxoResponseDto,HttpStatus.CREATED);
-    }
+//    @PutMapping("/casa/{casaBruxo}/id/{idBruxo}")
+//    public ResponseEntity<BruxoResponseDto> atualizarBruxo(@PathVariable CasaEnum casaBruxo, @PathVariable Long idBruxo, @RequestBody BruxoRequestDto bruxoRequestDto) throws BruxoException {
+//        BruxoResponseDto bruxoResponseDto = bruxoService.atualizarBruxo(casaBruxo,idBruxo,bruxoRequestDto);
+//        return new ResponseEntity<>(bruxoResponseDto,HttpStatus.CREATED);
+//    }
 
     @GetMapping("/mostrar-informacoes/casa/{casaBruxo}/id/{idBruxo}")
     public ResponseEntity<String> mostrarInformacoes(@PathVariable CasaEnum casaBruxo,@PathVariable Long idBruxo) throws BruxoException {
@@ -46,9 +46,16 @@ public class BruxoController {
         return new ResponseEntity<>(informacoes,HttpStatus.OK);
     }
 
-    @GetMapping("/lancar-feiticos/casa/{casaBruxo}/id/{idBruxo}")
+    @GetMapping("/lancar-feitico/casa/{casaBruxo}/id/{idBruxo}")
     public ResponseEntity<String> lancarFeitico(@PathVariable CasaEnum casaBruxo,@PathVariable Long idBruxo) throws BruxoException {
         String feiticoLancado = bruxoService.lancaFeitico(casaBruxo,idBruxo);
         return new ResponseEntity<>(feiticoLancado,HttpStatus.OK);
     }
+
+    @DeleteMapping("/casa/{casaBruxo}/id/{idBruxo}")
+    public ResponseEntity<Void> deletarBruxo(@PathVariable CasaEnum casaBruxo,@PathVariable Long idBruxo){
+        bruxoService.deletarBruxo(casaBruxo,idBruxo);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
+
 }
