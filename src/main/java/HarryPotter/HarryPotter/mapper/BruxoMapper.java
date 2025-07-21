@@ -18,26 +18,7 @@ public interface BruxoMapper {
 
     BruxoResponseDto bruxoToResponseDto(Bruxo bruxo);
 
-    BruxoRequestDto bruxoGrifinoriaToRequestDto(BruxoGrifinoria bruxoGrifinoria);
-
-    BruxoResponseDto bruxoGrifinoriaToResponseDto(BruxoGrifinoria bruxoGrifinoria);
-
-    BruxoRequestDto bruxoSonserinaToRequestDto(BruxoSonserina bruxoSonserina);
-
-    BruxoResponseDto bruxoSonserinaToResponseDto(BruxoSonserina bruxoSonserina);
-
-    BruxoGrifinoria bruxoRequestDtoToBruxoGrifinoriaEntity(BruxoRequestDto bruxoRequestDto);
-
-    BruxoSonserina bruxoRequestDtoToBruxoSonserinaEntity(BruxoRequestDto bruxoRequestDto);
-
-    BruxoGrifinoria bruxoResponseDtoToBruxoGrifinoriaEntity(BruxoResponseDto bruxoResponseDto);
-
-    BruxoSonserina bruxoResponseDtoToBruxoSonserinaEntity(BruxoResponseDto bruxoResponseDto);
-
-    BruxoResponseDto toResponseDto(BruxoRequestDto bruxoRequestDto);
-
-    List<BruxoResponseDto> listaBruxoGrifinoriaToListaResponseDto(List<BruxoGrifinoria> listaBruxoGrifinoria);
-
-    List<BruxoResponseDto> listaBruxoSonserinaToListaResponseDto(List<BruxoSonserina> listaBruxoSonserina);
+    Bruxo RequestDtoToBruxo(BruxoRequestDto bruxoRequestDto);
+    List<BruxoResponseDto> listaDeBruxosToResponseDto(List<Bruxo> listaDeBruxos);
 }
 

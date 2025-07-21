@@ -1,11 +1,14 @@
 package HarryPotter.HarryPotter.model;
 
 import HarryPotter.HarryPotter.enums.CasaEnum;
-import jakarta.persistence.Enumerated;
-import jakarta.persistence.MappedSuperclass;
+import jakarta.persistence.*;
 
-@MappedSuperclass
-public abstract class Bruxo {
+@Entity
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+public class Bruxo {
+
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
     private String nome;
 

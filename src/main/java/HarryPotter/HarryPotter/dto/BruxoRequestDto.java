@@ -18,15 +18,8 @@ public class BruxoRequestDto {
         return nome;
     }
 
-    public void setNome(String nome) {
-        this.nome = nome;
-    }
-
     public CasaEnum getCasa() {
         return casa;
     }
 
-    public void setCasa(CasaEnum casa) {
-        this.casa = casa;
-    }
 }
