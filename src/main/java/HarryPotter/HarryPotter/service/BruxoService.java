@@ -3,20 +3,23 @@ package HarryPotter.HarryPotter.service;
 import HarryPotter.HarryPotter.dto.BruxoRequestDto;
 import HarryPotter.HarryPotter.dto.BruxoResponseDto;
 import HarryPotter.HarryPotter.enums.CasaEnum;
-import HarryPotter.HarryPotter.exceptions.BruxoException;
+import HarryPotter.HarryPotter.exceptions.BruxoNaoEncontradoException;
+import HarryPotter.HarryPotter.exceptions.CasaNaoEIgualATabelaException;
+import HarryPotter.HarryPotter.exceptions.CasaNaoEncontradaException;
+import HarryPotter.HarryPotter.exceptions.NomeNaoEncontradoException;
 import HarryPotter.HarryPotter.mapper.BruxoMapper;
 import HarryPotter.HarryPotter.model.BruxoGrifinoria;
 import HarryPotter.HarryPotter.model.BruxoSonserina;
 import HarryPotter.HarryPotter.repository.BruxoGrifinoriaRepository;
 import HarryPotter.HarryPotter.repository.BruxoSonserinaRepository;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
+
+import static java.util.Objects.isNull;
 
 @Service
 public class BruxoService {
@@ -33,6 +36,9 @@ public class BruxoService {
     }
 
     public BruxoResponseDto criarBruxo (BruxoRequestDto bruxoRequestDto) {
+
+        lancarNomeNaoEncontradoException(bruxoRequestDto.getNome());
+        lancarCasaNaoEncontradaException(bruxoRequestDto.getCasa());
 
         BruxoSonserina bruxoSonserinaEntity = bruxoMapper.bruxoRequestDtoToBruxoSonserinaEntity(bruxoRequestDto);
         BruxoGrifinoria bruxoGrifinoriaEntity = bruxoMapper.bruxoRequestDtoToBruxoGrifinoriaEntity(bruxoRequestDto);
@@ -67,58 +73,68 @@ public class BruxoService {
         return listaBruxoResponseDto;
     }
 
-//    public BruxoResponseDto atualizarBruxo(CasaEnum casaBruxoASerAtualizado,Long idBruxo,BruxoRequestDto bruxoRequestDto) throws BruxoException {
-//
-//        return switch (casaBruxoASerAtualizado){
-//            case SONSERINA -> {
-//                Optional<BruxoSonserina> bruxoSonserinaEncontrado = Optional.ofNullable(bruxoSonserinaRepository.findById(idBruxo).orElseThrow(() -> new BruxoException("Bruxo nao encontrado")));
-//
-//                if (bruxoSonserinaEncontrado.get().getNome() != null){
-//                    bruxoSonserinaEncontrado.get().setNome(bruxoRequestDto.getNome());
-//                }
-//                if (bruxoSonserinaEncontrado.get().getCasa() != null){
-//                    bruxoSonserinaEncontrado.get().setCasa(bruxoRequestDto.getCasa());
-//                }
-//                yield bruxoMapper.bruxoSonserinaToResponseDto(bruxo);
-//
-//            }
-//            case GRIFINORIA -> {
-//                Optional<BruxoGrifinoria> bruxoGrifinoriaEncontrado = bruxoGrifinoriaRepository.findById(idBruxo);
-//                bruxoGrifinoriaEncontrado.orElseThrow(()-> new BruxoException("Bruxo nao encontrado"));
-//                bruxoGrifinoriaEncontrado.orElseThrow(()-> new BruxoException("Nome do bruxo nao encontrado")).setNome(bruxoRequestDto.getNome());
-//                bruxoGrifinoriaEncontrado.orElseThrow(()-> new BruxoException("Casa do bruxo nao encontrada")).setCasa(bruxoRequestDto.getCasa());
-//                BruxoGrifinoria bruxoGrifinoria = bruxoGrifinoriaRepository.save(bruxoGrifinoriaEncontrado.get());
-//                yield bruxoMapper.bruxoGrifinoriaToResponseDto(bruxoGrifinoria);
-//
-//            }
-//        };
-//    }
+    public BruxoResponseDto atualizarBruxo(CasaEnum casaBruxo,Long idBruxo,BruxoRequestDto bruxoRequestDto) throws BruxoNaoEncontradoException,NomeNaoEncontradoException,CasaNaoEncontradaException {
 
-    public String mostrarInformacoes(CasaEnum casaBruxo,Long idBruxo) throws BruxoException {
+        return switch (casaBruxo){
+            case SONSERINA -> {
+
+                BruxoSonserina bruxoSonserina = bruxoSonserinaRepository.findById(idBruxo).orElseThrow(BruxoNaoEncontradoException::new);
+
+                lancarNomeNaoEncontradoException(bruxoRequestDto.getNome());
+                bruxoSonserina.setNome(bruxoRequestDto.getNome());
+
+                lancarCasaNaoEncontradaException(bruxoRequestDto.getCasa());
+                lancarCasaNaoEIgualATabelaException(casaBruxo,bruxoRequestDto.getCasa());
+                bruxoSonserina.setCasa(bruxoRequestDto.getCasa());
+
+                bruxoSonserinaRepository.save(bruxoSonserina);
+                yield bruxoMapper.bruxoSonserinaToResponseDto(bruxoSonserina);
+
+            }
+
+            case GRIFINORIA -> {
+                BruxoGrifinoria bruxoGrifinoria = bruxoGrifinoriaRepository.findById(idBruxo).orElseThrow(BruxoNaoEncontradoException::new);
+
+                lancarNomeNaoEncontradoException(bruxoRequestDto.getNome());
+                bruxoGrifinoria.setNome(bruxoRequestDto.getNome());
+
+                lancarCasaNaoEncontradaException(bruxoRequestDto.getCasa());
+                lancarCasaNaoEIgualATabelaException(casaBruxo,bruxoRequestDto.getCasa());
+                bruxoGrifinoria.setCasa(bruxoRequestDto.getCasa());
+
+                bruxoGrifinoriaRepository.save(bruxoGrifinoria);
+                yield bruxoMapper.bruxoGrifinoriaToResponseDto(bruxoGrifinoria);
+            }
+        };
+
+
+    }
+
+    public String mostrarInformacoes(CasaEnum casaBruxo,Long idBruxo) throws BruxoNaoEncontradoException {
 
         return switch (casaBruxo){
                 case SONSERINA -> {
                     Optional<BruxoSonserina> bruxoSonserinaEscolhido = bruxoSonserinaRepository.findById(idBruxo);
-                   yield  bruxoSonserinaEscolhido.orElseThrow(()-> new BruxoException("Bruxo nao encontrado")).mostrarInformacoes();
+                   yield  bruxoSonserinaEscolhido.orElseThrow(BruxoNaoEncontradoException::new).mostrarInformacoes();
                 }
             case GRIFINORIA -> {
                 Optional<BruxoGrifinoria> bruxoGrifinoriaEscolhido = bruxoGrifinoriaRepository.findById(idBruxo);
-                yield bruxoGrifinoriaEscolhido.orElseThrow(()-> new BruxoException("Bruxo nao encontrado")).mostrarInformacoes();
+                yield bruxoGrifinoriaEscolhido.orElseThrow(BruxoNaoEncontradoException::new).mostrarInformacoes();
             }
 
         };
     }
 
-    public String lancaFeitico(CasaEnum casaBruxo,Long idBruxo) throws BruxoException {
+    public String lancaFeitico(CasaEnum casaBruxo,Long idBruxo) throws BruxoNaoEncontradoException {
 
         return switch (casaBruxo){
             case SONSERINA -> {
                 Optional<BruxoSonserina> bruxoSonserinaEscolhido = bruxoSonserinaRepository.findById(idBruxo);
-                yield bruxoSonserinaEscolhido.orElseThrow(()->new BruxoException("Bruxo nao encontrado")).lancarFeitico();
+                yield bruxoSonserinaEscolhido.orElseThrow(BruxoNaoEncontradoException::new).lancarFeitico();
             }
             case GRIFINORIA -> {
                 Optional<BruxoGrifinoria> bruxoGrifinoriaEscolhido = bruxoGrifinoriaRepository.findById(idBruxo);
-                yield bruxoGrifinoriaEscolhido.orElseThrow(()-> new BruxoException("Bruxo nao encontrado")).lancarFeitico();
+                yield bruxoGrifinoriaEscolhido.orElseThrow(BruxoNaoEncontradoException::new).lancarFeitico();
             }
         };
 
@@ -133,5 +149,22 @@ public class BruxoService {
                 bruxoGrifinoriaRepository.deleteById(idBruxo);
             }
         };
+    }
+
+    public void lancarNomeNaoEncontradoException(String nome) throws NomeNaoEncontradoException{
+        if (isNull(nome) || nome.isBlank()){
+            throw new NomeNaoEncontradoException();
+        }
+    }
+    public void lancarCasaNaoEncontradaException(CasaEnum casa) throws CasaNaoEncontradaException{
+        if (isNull(casa)){
+            throw new CasaNaoEncontradaException();
+        }
+    }
+    public void lancarCasaNaoEIgualATabelaException(CasaEnum casaBruxo, CasaEnum casaBruxoRequestDto) throws CasaNaoEIgualATabelaException{
+        if (!casaBruxo.equals(casaBruxoRequestDto)){
+            throw  new CasaNaoEIgualATabelaException();
+        }
+
     }
 }

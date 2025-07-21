@@ -3,7 +3,7 @@ package HarryPotter.HarryPotter.service;
 import HarryPotter.HarryPotter.dto.BruxoRequestDto;
 import HarryPotter.HarryPotter.dto.BruxoResponseDto;
 import HarryPotter.HarryPotter.enums.CasaEnum;
-import HarryPotter.HarryPotter.exceptions.BruxoException;
+import HarryPotter.HarryPotter.exceptions.BruxoNaoEncontradoException;
 import HarryPotter.HarryPotter.helper.BruxoHelper;
 import HarryPotter.HarryPotter.mapper.BruxoMapper;
 import HarryPotter.HarryPotter.model.BruxoGrifinoria;
@@ -101,7 +101,7 @@ public class BruxoServiceTest {
 
     @DisplayName("4- deve mostrar informacoes do bruxo de sonserina")
     @Test
-    void deveMostrarInformacoesDoBruxoDeSonserina() throws BruxoException {
+    void deveMostrarInformacoesDoBruxoDeSonserina() throws BruxoNaoEncontradoException {
         BruxoSonserina bruxoSonserina = BruxoHelper.criarBruxoSonserina();
         Mockito.when(bruxoSonserinaRepository.findById(BruxoHelper.ID_BRUXO)).thenReturn(Optional.of(bruxoSonserina));
         String informacoes = bruxoService.mostrarInformacoes(BruxoHelper.CASA_BRUXO_SONSERINA, BruxoHelper.ID_BRUXO);
@@ -112,13 +112,13 @@ public class BruxoServiceTest {
 
     @DisplayName("5- deve lancar excecao quando nao encontrar bruxo de sonserina")
     @Test
-    void deveLancarExcecaoQuandoNaoEncontrarBruxoDeSonserina() throws BruxoException {
-        Assertions.assertThrows(BruxoException.class,()->bruxoService.mostrarInformacoes(BruxoHelper.CASA_BRUXO_SONSERINA,BruxoHelper.ID_BRUXO));
+    void deveLancarExcecaoQuandoNaoEncontrarBruxoDeSonserina() throws BruxoNaoEncontradoException {
+        Assertions.assertThrows(BruxoNaoEncontradoException.class,()->bruxoService.mostrarInformacoes(BruxoHelper.CASA_BRUXO_SONSERINA,BruxoHelper.ID_BRUXO));
     }
 
     @DisplayName("6- deve mostrar informacoes do bruxo de grifinoria")
     @Test
-    void deveMostrarInformacoesDoBruxoDeGrifinoria() throws BruxoException {
+    void deveMostrarInformacoesDoBruxoDeGrifinoria() throws BruxoNaoEncontradoException {
         BruxoGrifinoria bruxoGrifinoria = BruxoHelper.criarBruxoGrifinoria();
         Mockito.when(bruxoGrifinoriaRepository.findById(BruxoHelper.ID_BRUXO)).thenReturn(Optional.of(bruxoGrifinoria));
         String informacoes = bruxoService.mostrarInformacoes(BruxoHelper.CASA_BRUXO_GRIFINORIA, BruxoHelper.ID_BRUXO);
@@ -129,13 +129,13 @@ public class BruxoServiceTest {
 
     @DisplayName("6- deve lancar excecao quando nao encontrar bruxo de grifinoria ao mostrar informacoes")
     @Test
-    void deveLancarExcecaoQuandoNaoEncontrarBruxoDeGrifinoriaAoMostrarInformacoes() throws BruxoException {
-        Assertions.assertThrows(BruxoException.class,()->bruxoService.mostrarInformacoes(BruxoHelper.CASA_BRUXO_SONSERINA,BruxoHelper.ID_BRUXO));
+    void deveLancarExcecaoQuandoNaoEncontrarBruxoDeGrifinoriaAoMostrarInformacoes() throws BruxoNaoEncontradoException {
+        Assertions.assertThrows(BruxoNaoEncontradoException.class,()->bruxoService.mostrarInformacoes(BruxoHelper.CASA_BRUXO_SONSERINA,BruxoHelper.ID_BRUXO));
     }
 
     @DisplayName("7- deve lancar feitico do bruxo de sonserina")
     @Test
-    void deveLancarFeiticoDoBruxoDeSonserina() throws BruxoException {
+    void deveLancarFeiticoDoBruxoDeSonserina() throws BruxoNaoEncontradoException {
         BruxoSonserina bruxoSonserina = BruxoHelper.criarBruxoSonserina();
         Mockito.when(bruxoSonserinaRepository.findById(BruxoHelper.ID_BRUXO)).thenReturn(Optional.of(bruxoSonserina));
         String feiticoLancado = bruxoService.lancaFeitico(BruxoHelper.CASA_BRUXO_SONSERINA, BruxoHelper.ID_BRUXO);
@@ -145,13 +145,13 @@ public class BruxoServiceTest {
 
     @DisplayName("8- deve lancar excecao quando nao encontrar bruxo de sonserina ao lancar feitico")
     @Test
-    void deveLancarExcecaoQuandoNaoEncontrarBruxoDeSonserinaAoLancarFeitico() throws BruxoException {
-        Assertions.assertThrows(BruxoException.class,()->bruxoService.lancaFeitico(BruxoHelper.CASA_BRUXO_SONSERINA,BruxoHelper.ID_BRUXO));
+    void deveLancarExcecaoQuandoNaoEncontrarBruxoDeSonserinaAoLancarFeitico() throws BruxoNaoEncontradoException {
+        Assertions.assertThrows(BruxoNaoEncontradoException.class,()->bruxoService.lancaFeitico(BruxoHelper.CASA_BRUXO_SONSERINA,BruxoHelper.ID_BRUXO));
     }
 
     @DisplayName("9- deve lancar feitico do bruxo de grifinoria")
     @Test
-    void deveLancarFeiticoDoBruxoDeGrifinoria() throws BruxoException {
+    void deveLancarFeiticoDoBruxoDeGrifinoria() throws BruxoNaoEncontradoException {
         BruxoGrifinoria bruxoGrifinoria = BruxoHelper.criarBruxoGrifinoria();
         Mockito.when(bruxoGrifinoriaRepository.findById(BruxoHelper.ID_BRUXO)).thenReturn(Optional.of(bruxoGrifinoria));
         String feiticoLancado = bruxoService.lancaFeitico(BruxoHelper.CASA_BRUXO_GRIFINORIA, BruxoHelper.ID_BRUXO);
@@ -161,8 +161,8 @@ public class BruxoServiceTest {
 
     @DisplayName("10- deve lancar excecao quando nao encontrar bruxo de grifinoria ao lancar Feitico")
     @Test
-    void deveLancarExcecaoQuandoNaoEncontrarBruxoDeGrifinoriaAoLancarFeitico() throws BruxoException {
-        Assertions.assertThrows(BruxoException.class,()->bruxoService.mostrarInformacoes(BruxoHelper.CASA_BRUXO_SONSERINA,BruxoHelper.ID_BRUXO));
+    void deveLancarExcecaoQuandoNaoEncontrarBruxoDeGrifinoriaAoLancarFeitico() throws BruxoNaoEncontradoException {
+        Assertions.assertThrows(BruxoNaoEncontradoException.class,()->bruxoService.mostrarInformacoes(BruxoHelper.CASA_BRUXO_SONSERINA,BruxoHelper.ID_BRUXO));
     }
 
     @DisplayName("11-deve deletar bruxo de sonserina")
@@ -189,4 +189,8 @@ public class BruxoServiceTest {
 
     }
 
+    @DisplayName("13-deve lancar NomeNaoEncontradoException")
+    @Test
+    void deveLancarNomeNaoEncontradoException(){
+        Assertions.assertThrows(()->bruxoService.atualizarBruxo())
 }

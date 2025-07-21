@@ -3,10 +3,11 @@ package HarryPotter.HarryPotter.controller;
 import HarryPotter.HarryPotter.dto.BruxoRequestDto;
 import HarryPotter.HarryPotter.dto.BruxoResponseDto;
 import HarryPotter.HarryPotter.enums.CasaEnum;
-import HarryPotter.HarryPotter.exceptions.BruxoException;
+import HarryPotter.HarryPotter.exceptions.BruxoNaoEncontradoException;
+import HarryPotter.HarryPotter.exceptions.CasaNaoEncontradaException;
+import HarryPotter.HarryPotter.exceptions.NomeNaoEncontradoException;
 import HarryPotter.HarryPotter.service.BruxoService;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -34,20 +35,20 @@ public class BruxoController {
         return new ResponseEntity<>(listaBruxoResponseDto,HttpStatus.OK);
     }
 
-//    @PutMapping("/casa/{casaBruxo}/id/{idBruxo}")
-//    public ResponseEntity<BruxoResponseDto> atualizarBruxo(@PathVariable CasaEnum casaBruxo, @PathVariable Long idBruxo, @RequestBody BruxoRequestDto bruxoRequestDto) throws BruxoException {
-//        BruxoResponseDto bruxoResponseDto = bruxoService.atualizarBruxo(casaBruxo,idBruxo,bruxoRequestDto);
-//        return new ResponseEntity<>(bruxoResponseDto,HttpStatus.CREATED);
-//    }
+    @PutMapping("/casa/{casaBruxo}/id/{idBruxo}")
+    public ResponseEntity<BruxoResponseDto> atualizarBruxo(@PathVariable CasaEnum casaBruxo, @PathVariable Long idBruxo, @RequestBody BruxoRequestDto bruxoRequestDto) throws BruxoNaoEncontradoException, NomeNaoEncontradoException, CasaNaoEncontradaException {
+        BruxoResponseDto bruxoResponseDto = bruxoService.atualizarBruxo(casaBruxo,idBruxo,bruxoRequestDto);
+        return new ResponseEntity<>(bruxoResponseDto,HttpStatus.CREATED);
+    }
 
     @GetMapping("/mostrar-informacoes/casa/{casaBruxo}/id/{idBruxo}")
-    public ResponseEntity<String> mostrarInformacoes(@PathVariable CasaEnum casaBruxo,@PathVariable Long idBruxo) throws BruxoException {
+    public ResponseEntity<String> mostrarInformacoes(@PathVariable CasaEnum casaBruxo,@PathVariable Long idBruxo) throws BruxoNaoEncontradoException {
         String informacoes = bruxoService.mostrarInformacoes(casaBruxo,idBruxo);
         return new ResponseEntity<>(informacoes,HttpStatus.OK);
     }
 
     @GetMapping("/lancar-feitico/casa/{casaBruxo}/id/{idBruxo}")
-    public ResponseEntity<String> lancarFeitico(@PathVariable CasaEnum casaBruxo,@PathVariable Long idBruxo) throws BruxoException {
+    public ResponseEntity<String> lancarFeitico(@PathVariable CasaEnum casaBruxo,@PathVariable Long idBruxo) throws BruxoNaoEncontradoException {
         String feiticoLancado = bruxoService.lancaFeitico(casaBruxo,idBruxo);
         return new ResponseEntity<>(feiticoLancado,HttpStatus.OK);
     }
