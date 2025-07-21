@@ -33,6 +33,14 @@ public class BruxoHelper {
         return new BruxoRequestDto(NOME_SONSERINA, CasaEnum.SONSERINA);
     }
 
+    public static BruxoRequestDto criarBruxoRequestDtoGrifinoriaNomeNulo(){
+        return new BruxoRequestDto(null, CasaEnum.GRIFINORIA);
+    }
+
+    public static BruxoRequestDto criarBruxoRequestDtoSonserinaNomeNulo(){
+        return new BruxoRequestDto(null, CasaEnum.SONSERINA);
+    }
+
     public static BruxoResponseDto criarBruxoResponseDtoGrifinoria(){
         return new BruxoResponseDto(NOME_GRIFINORIA, CasaEnum.GRIFINORIA);
     }
