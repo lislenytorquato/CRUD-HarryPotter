@@ -4,10 +4,6 @@ import HarryPotter.HarryPotter.enums.CasaEnum;
 
 public class BruxoGrifinoria extends Bruxo implements Magia{
 
-    public BruxoGrifinoria() {
-        super();
-    }
-
     public BruxoGrifinoria(String nome, CasaEnum casa) {
         super(nome, casa);
     }

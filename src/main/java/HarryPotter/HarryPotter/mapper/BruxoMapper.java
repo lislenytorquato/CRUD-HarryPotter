@@ -20,5 +20,7 @@ public interface BruxoMapper {
 
     Bruxo RequestDtoToBruxo(BruxoRequestDto bruxoRequestDto);
     List<BruxoResponseDto> listaDeBruxosToResponseDto(List<Bruxo> listaDeBruxos);
+    BruxoSonserina bruxoToBruxoSonserina(Bruxo bruxo);
+    BruxoGrifinoria bruxoToBruxoGrifinoria(Bruxo bruxo);
 }
 
