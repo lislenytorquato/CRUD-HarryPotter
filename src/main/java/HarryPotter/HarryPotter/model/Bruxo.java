@@ -2,6 +2,9 @@ package HarryPotter.HarryPotter.model;
 
 import HarryPotter.HarryPotter.enums.CasaEnum;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 
 @Entity
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
@@ -10,9 +13,9 @@ public class Bruxo {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+
     private String nome;
 
-    @Enumerated
     private CasaEnum casa;
 
     public Bruxo() {

@@ -3,6 +3,7 @@ package HarryPotter.HarryPotter.controller;
 import HarryPotter.HarryPotter.dto.BruxoRequestDto;
 import HarryPotter.HarryPotter.dto.BruxoResponseDto;
 import HarryPotter.HarryPotter.service.BruxoService;
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -20,7 +21,7 @@ public class BruxoController {
     }
 
     @PostMapping
-    public ResponseEntity<BruxoResponseDto> criar(@RequestBody BruxoRequestDto bruxoRequestDto) {
+    public ResponseEntity<BruxoResponseDto> criar(@Valid @RequestBody BruxoRequestDto bruxoRequestDto) {
         BruxoResponseDto bruxoResponseDto = bruxoService.criarBruxo(bruxoRequestDto);
         return new ResponseEntity<>(bruxoResponseDto, HttpStatus.CREATED);
     }
@@ -32,7 +33,7 @@ public class BruxoController {
     }
 
     @PutMapping("/{idBruxo}")
-    public ResponseEntity<BruxoResponseDto> atualizar(@PathVariable Long idBruxo, @RequestBody BruxoRequestDto bruxoRequestDto) {
+    public ResponseEntity<BruxoResponseDto> atualizar(@PathVariable Long idBruxo, @Valid @RequestBody BruxoRequestDto bruxoRequestDto) {
         BruxoResponseDto bruxoResponseDto = bruxoService.atualizarBruxo(idBruxo,bruxoRequestDto);
         return new ResponseEntity<>(bruxoResponseDto,HttpStatus.OK);
     }

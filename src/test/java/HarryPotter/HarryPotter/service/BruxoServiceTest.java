@@ -4,8 +4,6 @@ import HarryPotter.HarryPotter.dto.BruxoRequestDto;
 import HarryPotter.HarryPotter.dto.BruxoResponseDto;
 import HarryPotter.HarryPotter.enums.CasaEnum;
 import HarryPotter.HarryPotter.exceptions.BruxoNaoEncontradoException;
-import HarryPotter.HarryPotter.exceptions.CasaNaoEncontradaException;
-import HarryPotter.HarryPotter.exceptions.NomeNaoEncontradoException;
 import HarryPotter.HarryPotter.helper.BruxoHelper;
 import HarryPotter.HarryPotter.mapper.BruxoMapper;
 import HarryPotter.HarryPotter.model.Bruxo;
@@ -25,11 +23,6 @@ import java.util.List;
 import java.util.Optional;
 
 import static HarryPotter.HarryPotter.helper.BruxoHelper.*;
-import static HarryPotter.HarryPotter.helper.BruxoHelper.FEITICO_GRIFINORIA;
-import static HarryPotter.HarryPotter.helper.BruxoHelper.ID_BRUXO;
-import static HarryPotter.HarryPotter.helper.BruxoHelper.NOME_GRIFINORIA;
-import static HarryPotter.HarryPotter.helper.BruxoHelper.criarBruxo;
-import static HarryPotter.HarryPotter.helper.BruxoHelper.criarBruxoRequestDtoNomeNulo;
 
 @ExtendWith(MockitoExtension.class)
 public class BruxoServiceTest {
@@ -147,28 +140,7 @@ public class BruxoServiceTest {
 
     }
 
-    @DisplayName("9-deve lancar NomeNaoEncontradoException")
-    @Test
-    void deveLancarNomeNaoEncontradoException() {
-
-        BruxoRequestDto bruxoRequestDto = criarBruxoRequestDtoNomeNulo();
-        Bruxo bruxo = criarBruxo(null, CASA_BRUXO_SONSERINA);
-        Mockito.when(bruxoRepository.findById(ID_BRUXO)).thenReturn(Optional.of(bruxo));
-
-        Assertions.assertThrows(NomeNaoEncontradoException.class,() -> bruxoService.atualizarBruxo(ID_BRUXO,bruxoRequestDto));
-    }
-
-    @DisplayName("10-deve lancar CasaNaoEncontradaException")
-    @Test
-    void deveLancarCasaNaoEncontradaException() {
-
-        BruxoRequestDto bruxoRequestDto = criarBruxoRequestDtoCasaNula();
-        Bruxo bruxo = criarBruxo(NOME_SONSERINA, null);
-        Mockito.when(bruxoRepository.findById(ID_BRUXO)).thenReturn(Optional.of(bruxo));
-        Assertions.assertThrows(CasaNaoEncontradaException.class,() -> bruxoService.atualizarBruxo(ID_BRUXO,bruxoRequestDto));
-    }
-
-    @DisplayName("11-deve atualizar bruxo")
+    @DisplayName("9-deve atualizar bruxo")
     @Test
     void deveAtualizarBruxo() {
 
