@@ -2,20 +2,20 @@ services:
   postgres:
     image: postgres
     container_name: postgres_db
-    restart: always
+    restart: unless-stopped
     environment:
-      POSTGRES_USER: meuusuario
-      POSTGRES_PASSWORD: minhasenha
-      POSTGRES_DB: meubanco
+      POSTGRES_USER: usuarioHarry
+      POSTGRES_PASSWORD: potter
+      POSTGRES_DB: Harry Potter
     ports:
       - "5432:5432"
     volumes:
-      - pgdata:/var/lib/postgresql/data
+      - postgres_data:/var/lib/postgresql/data
 
   pgadmin:
     image: dpage/pgadmin4
     container_name: pgadmin
-    restart: always
+    restart: unless-stopped
     environment:
       PGADMIN_DEFAULT_EMAIL: admin@admin.com
       PGADMIN_DEFAULT_PASSWORD: admin
@@ -25,5 +25,5 @@ services:
       - postgres
 
 volumes:
-  pgdata:
+  postgres_data:
 
