@@ -4,10 +4,6 @@ import HarryPotter.HarryPotter.enums.CasaEnum;
 
 public class BruxoSonserina extends Bruxo implements Magia{
 
-    public BruxoSonserina() {
-        super();
-    }
-
     public BruxoSonserina(String nome, CasaEnum casa) {
         super(nome, casa);
     }
