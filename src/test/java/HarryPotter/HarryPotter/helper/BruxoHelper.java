@@ -3,6 +3,7 @@ package HarryPotter.HarryPotter.helper;
 import HarryPotter.HarryPotter.dto.BruxoRequestDto;
 import HarryPotter.HarryPotter.dto.BruxoResponseDto;
 import HarryPotter.HarryPotter.enums.CasaEnum;
+import HarryPotter.HarryPotter.model.Bruxo;
 import HarryPotter.HarryPotter.model.BruxoGrifinoria;
 import HarryPotter.HarryPotter.model.BruxoSonserina;
 
@@ -33,12 +34,12 @@ public class BruxoHelper {
         return new BruxoRequestDto(NOME_SONSERINA, CasaEnum.SONSERINA);
     }
 
-    public static BruxoRequestDto criarBruxoRequestDtoGrifinoriaNomeNulo(){
+    public static BruxoRequestDto criarBruxoRequestDtoNomeNulo(){
         return new BruxoRequestDto(null, CasaEnum.GRIFINORIA);
     }
 
-    public static BruxoRequestDto criarBruxoRequestDtoSonserinaNomeNulo(){
-        return new BruxoRequestDto(null, CasaEnum.SONSERINA);
+    public static BruxoRequestDto criarBruxoRequestDtoCasaNula(){
+        return new BruxoRequestDto(NOME_GRIFINORIA,null);
     }
 
     public static BruxoResponseDto criarBruxoResponseDtoGrifinoria(){
@@ -56,5 +57,14 @@ public class BruxoHelper {
     public static BruxoSonserina criarBruxoSonserina(){
         return new BruxoSonserina(NOME_SONSERINA, CasaEnum.SONSERINA);
     }
+    public static Bruxo criarBruxo(String nome, CasaEnum casaEnum){
+        return new Bruxo(nome,casaEnum);
+    }
 
+    public static BruxoResponseDto criarBruxoResponseDto(String nome, CasaEnum casaEnum){
+        return new BruxoResponseDto(nome,casaEnum);
+    }
+    public static BruxoRequestDto criarBruxoRequestDto(String nome,CasaEnum casaEnum){
+        return new BruxoRequestDto(nome,casaEnum);
+    }
 }

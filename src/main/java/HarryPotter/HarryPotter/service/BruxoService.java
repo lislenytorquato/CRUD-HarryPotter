@@ -20,13 +20,13 @@ import static java.util.Objects.isNull;
 @Service
 public class BruxoService {
 
-    BruxoMapper mapper;
-    BruxoRepository repository;
+    private final BruxoMapper bruxoMapper;
+    private final BruxoRepository bruxoRepository;
 
 
-    public BruxoService(BruxoMapper mapper, BruxoRepository repository){
-        this.mapper = mapper;
-        this.repository = repository;
+    public BruxoService(BruxoMapper bruxoMapper, BruxoRepository bruxoRepository){
+        this.bruxoMapper = bruxoMapper;
+        this.bruxoRepository = bruxoRepository;
 
     }
 
@@ -35,15 +35,15 @@ public class BruxoService {
         lancarNomeNaoEncontradoException(bruxoRequestDto.getNome());
         lancarCasaNaoEncontradaException(bruxoRequestDto.getCasa());
 
-        Bruxo bruxo = mapper.RequestDtoToBruxo(bruxoRequestDto);
-        Bruxo bruxoSalvo = repository.save(bruxo);
-        return mapper.bruxoToResponseDto(bruxoSalvo);
+        Bruxo bruxo = bruxoMapper.requestDtoToBruxo(bruxoRequestDto);
+        Bruxo bruxoSalvo = bruxoRepository.save(bruxo);
+        return bruxoMapper.bruxoToResponseDto(bruxoSalvo);
     }
 
     public List<BruxoResponseDto> listarBruxos(){
-        List<Bruxo> listaDeBruxos = repository.findAll();
+        List<Bruxo> listaDeBruxos = bruxoRepository.findAll();
 
-        return mapper.listaDeBruxosToResponseDto(listaDeBruxos);
+        return bruxoMapper.listaDeBruxosToResponseDto(listaDeBruxos);
     }
 
     public BruxoResponseDto atualizarBruxo(Long idBruxo,BruxoRequestDto bruxoRequestDto){
@@ -58,9 +58,9 @@ public class BruxoService {
 
         bruxo.setCasa(bruxoRequestDto.getCasa());
 
-        Bruxo bruxoSalvo = repository.save(bruxo);
+        Bruxo bruxoSalvo = bruxoRepository.save(bruxo);
 
-        return mapper.bruxoToResponseDto(bruxoSalvo);
+        return bruxoMapper.bruxoToResponseDto(bruxoSalvo);
     }
 
     public String mostrarInformacoes(Long idBruxo) {
@@ -73,8 +73,8 @@ public class BruxoService {
 
         Bruxo bruxo = repositorFindById(idBruxo);
 
-        BruxoSonserina bruxoSonserina = mapper.bruxoToBruxoSonserina(bruxo);
-        BruxoGrifinoria bruxoGrifinoria = mapper.bruxoToBruxoGrifinoria(bruxo);
+        BruxoSonserina bruxoSonserina = bruxoMapper.bruxoToBruxoSonserina(bruxo);
+        BruxoGrifinoria bruxoGrifinoria = bruxoMapper.bruxoToBruxoGrifinoria(bruxo);
 
         return switch (bruxo.getCasa()){
             case SONSERINA -> bruxoSonserina.lancarFeitico();
@@ -85,13 +85,13 @@ public class BruxoService {
     public void deletarBruxo(Long idBruxo) {
         Bruxo bruxo = repositorFindById(idBruxo);
         if ( bruxo != null) {
-            repository.delete(bruxo);
+            bruxoRepository.delete(bruxo);
         }
 
     }
 
     private Bruxo repositorFindById(Long idBruxo) {
-        return repository.findById(idBruxo).orElseThrow(BruxoNaoEncontradoException::new);
+        return bruxoRepository.findById(idBruxo).orElseThrow(BruxoNaoEncontradoException::new);
     }
     private void lancarNomeNaoEncontradoException(String nome) {
         if (isNull(nome) || nome.isBlank()){

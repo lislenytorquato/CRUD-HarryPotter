@@ -14,11 +14,9 @@ import java.util.List;
 public interface BruxoMapper {
     BruxoMapper INSTANCE = Mappers.getMapper(BruxoMapper.class);
 
-    BruxoRequestDto bruxoToRequestDto(Bruxo bruxo);
-
     BruxoResponseDto bruxoToResponseDto(Bruxo bruxo);
 
-    Bruxo RequestDtoToBruxo(BruxoRequestDto bruxoRequestDto);
+    Bruxo requestDtoToBruxo(BruxoRequestDto bruxoRequestDto);
     List<BruxoResponseDto> listaDeBruxosToResponseDto(List<Bruxo> listaDeBruxos);
     BruxoSonserina bruxoToBruxoSonserina(Bruxo bruxo);
     BruxoGrifinoria bruxoToBruxoGrifinoria(Bruxo bruxo);
