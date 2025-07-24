@@ -41,9 +41,7 @@ public class BruxoService {
     public BruxoResponseDto atualizarBruxo(Long idBruxo,BruxoRequestDto bruxoRequestDto){
 
         Bruxo bruxo = repositorFindById(idBruxo);
-
-        //lancarNomeNaoEncontradoException(bruxoRequestDto.getNome());
-
+        
         bruxo.setNome(bruxoRequestDto.getNome());
 
         bruxo.setCasa(bruxoRequestDto.getCasa());
